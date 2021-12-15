@@ -51,7 +51,7 @@
 		</div>
 		<slot />
 	</div>
-	<div class="navbar-end gap-2 lg:display hidden">
+	<div class="navbar-end gap-2 lg:flex hidden">
 		<div class="tabs">
 			<TabItem href="/store/wishlist" name="Wishlist" />
 			<TabItem href="/store/cart" name="Cart" />
