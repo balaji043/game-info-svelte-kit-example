@@ -33,11 +33,11 @@
 	});
 </script>
 
-<div class="grid grid-cols-12 gap-4">
+<div class="grid grid-cols-12 gap-4 h-min">
 	<div class="col-span-10">
 		{#key currentGame}
 			<div class="card image-full" >
-				<figure in:fly="{{ x: 100, duration: 500 }}">
+				<figure in:fly="{{ x: 100, duration: 500 }}" class="h-min">
 					<img src={currentGame.img.lg} alt={currentGame.name} />
 				</figure>
 				<div class="card-body justify-end w-72" in:fly="{{ x: 500, duration: 500 }}">

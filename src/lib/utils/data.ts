@@ -115,5 +115,6 @@ export const ON_SALE_GAMES: IGame[] = [
 	rumbleverse,
 	finalFantasy,
 	homeWorld3,
-	witchyWood
+	witchyWood,
+	homeWorld3,
 ];
