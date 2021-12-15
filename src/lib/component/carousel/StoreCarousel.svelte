@@ -4,43 +4,51 @@
 	import { linear } from 'svelte/easing';
 	import { onDestroy, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-
+	import { IntervalTimer } from '$lib/utils/IntervalTimer';
+	import viewport from '$lib/actions/viewport';
 	const createTweenedProgress = () =>
 		tweened(0, {
-			duration: 600,
+			duration: 700,
 			easing: linear
 		});
 	let progress = createTweenedProgress();
 	let currentGameIndex = 0;
 	$: currentGame = CAROUSEL_GAMES[currentGameIndex];
-	let interval;
+	let intervalTimer = new IntervalTimer(() => {
+		let s = $progress.valueOf();
+		if (s >= 1) {
+			if (currentGameIndex === CAROUSEL_GAMES.length - 1) {
+				currentGameIndex = 0;
+			} else {
+				currentGameIndex++;
+			}
+			progress = createTweenedProgress();
+		} else {
+			progress.update((v) => v + 0.1);
+		}
+	}, 400);
+
 	onMount(() => {
-		interval = setInterval(() => {
-			let s = $progress.valueOf();
-			console.log(s);
-			if (s >= 1) {
-				if (currentGameIndex === CAROUSEL_GAMES.length - 1) {
-					currentGameIndex = 0;
-				} else {
-					currentGameIndex++;
-				}
-				progress = createTweenedProgress();
-			} else progress.update((v) => v + 0.1);
-		}, 400);
+		intervalTimer.start();
 	});
 	onDestroy(() => {
-		clearInterval(interval);
+		intervalTimer.clear();
 	});
 </script>
 
 <div class="grid grid-cols-12 gap-4 h-min">
-	<div class="col-span-10">
+	<div
+		class="col-span-10"
+		use:viewport
+		on:enterViewport={() => intervalTimer.resume()}
+		on:exitViewport={() => intervalTimer.pause()}
+	>
 		{#key currentGame}
-			<div class="card image-full" >
-				<figure in:fly="{{ x: 100, duration: 500 }}" class="h-min">
+			<div class="card image-full">
+				<figure in:fly={{ x: 100, duration: 1000 }} class="h-min">
 					<img src={currentGame.img.lg} alt={currentGame.name} />
 				</figure>
-				<div class="card-body justify-end w-72" in:fly="{{ x: 500, duration: 500 }}">
+				<div class="card-body justify-end w-72" in:fly={{ x: 500, duration: 1000 }}>
 					<p class="card-title">{currentGame.name}</p>
 					<p>{currentGame.description}</p>
 					<div class="card-actions">
@@ -56,7 +64,10 @@
 				<button
 					class="btn btn-ghost flex-col py-8 pr-8 gap-2 content-start align-middle relative"
 					on:click={() => {
-						currentGameIndex = i;
+						if (currentGameIndex !== i) {
+							currentGameIndex = i;
+							progress = createTweenedProgress();
+						}
 					}}
 				>
 					<img class="w-10 h-16 object-cover rounded-md z-10" src={game.img.sm} alt={game.name} />
