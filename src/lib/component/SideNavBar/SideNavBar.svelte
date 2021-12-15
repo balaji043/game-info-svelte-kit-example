@@ -8,7 +8,7 @@
 
 <div class="drawer-side">
 	<label for="my-drawer" class="drawer-overlay" />
-	<div class="menu p-1 overflow-y-auto w-64">
+	<div class="menu p-1 overflow-y-auto w-64 bg-base-100">
 		<div class="flex w-full flex-col">
 			<img class="aspect-square w-11 self-center" src="/favicon.png" alt="Epic Games Icon" />
 			<ol class="mt-4">
