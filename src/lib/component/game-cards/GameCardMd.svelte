@@ -4,16 +4,16 @@
 	const { href, img, name, price, description } = game;
 </script>
 
-<a {href} class="card">
+<a {href} class="card w-52">
 	<figure class="relative rounded">
-		<img class="" src={img.sm} alt={name} />
+		<img src={img.sm} alt={name} />
 		<div class="top-0 left-0 absolute z-10 w-full h-full hover:bg-slate-400/50"/>
 	</figure>
-	<div class="card-body p-0 pt-2 overflow-ellipsis whitespace-nowrap overflow-hidden">
-		<h2 class="card-title mb-0">
+	<div class="card-body p-0 pt-2">
+		<h2 class="card-title mb-0 overflow-ellipsis whitespace-nowrap overflow-hidden">
 			{name}
 		</h2>
-		<p>{description}</p>
+		<p class="overflow-ellipsis whitespace-nowrap overflow-hidden">{description}</p>
 		<div class="mt-2 mb-2">
 			{#if price.isFree}
 				<div class="badge badge-accent">FREE</div>

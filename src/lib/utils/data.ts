@@ -111,6 +111,7 @@ export const CAROUSEL_GAMES: IGame[] = [
 ];
 export const ON_SALE_GAMES: IGame[] = [
 	rocketLeague,
+	fortnite,
 	rumbleverse,
 	finalFantasy,
 	homeWorld3,
