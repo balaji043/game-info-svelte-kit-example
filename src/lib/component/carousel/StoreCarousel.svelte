@@ -3,6 +3,8 @@
 	import { tweened } from 'svelte/motion';
 	import { linear } from 'svelte/easing';
 	import { onDestroy, onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
+
 	const createTweenedProgress = () =>
 		tweened(0, {
 			duration: 600,
@@ -33,18 +35,20 @@
 
 <div class="grid grid-cols-12 gap-4">
 	<div class="col-span-10">
-		<div class="card image-full">
-			<figure>
-				<img src={currentGame.img.lg} alt={currentGame.name} />
-			</figure>
-			<div class="card-body justify-end w-72">
-				<p class="card-title">{currentGame.name}</p>
-				<p>{currentGame.description}</p>
-				<div class="card-actions">
-					<a class="btn btn-primary" href={currentGame.href}>BUY NOW</a>
+		{#key currentGame}
+			<div class="card image-full" >
+				<figure in:fly="{{ x: 100, duration: 500 }}">
+					<img src={currentGame.img.lg} alt={currentGame.name} />
+				</figure>
+				<div class="card-body justify-end w-72" in:fly="{{ x: 500, duration: 500 }}">
+					<p class="card-title">{currentGame.name}</p>
+					<p>{currentGame.description}</p>
+					<div class="card-actions">
+						<a class="btn btn-primary" href={currentGame.href}>BUY NOW</a>
+					</div>
 				</div>
 			</div>
-		</div>
+		{/key}
 	</div>
 	<div class="col-span-2">
 		<div class="flex flex-col h-full justify-between">
