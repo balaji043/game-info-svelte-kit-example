@@ -68,9 +68,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.Neon {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073;
-	}
-</style>
