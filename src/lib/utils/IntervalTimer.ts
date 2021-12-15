@@ -1,25 +1,33 @@
 export class IntervalTimer {
-	callbackStartTime;
-	remaining = 0;
-	paused = false;
-	timerId = null;
-	_callback;
-	_delay;
+	private callbackStartTime;
+	private remaining = 0;
+	private paused = false;
+	private interval?: NodeJS.Timer;
+	private intervalCallback;
+	private timeDelay;
 
 	constructor(callback, delay) {
-		this._callback = callback;
-		this._delay = delay;
+		this.intervalCallback = callback;
+		this.timeDelay = delay;
 	}
-
-	pause() {
+	private run(): void {
+		this.callbackStartTime = new Date().getTime();
+		this.intervalCallback();
+	}
+	public start(): void {
+		this.clear();
+		this.interval = setInterval(() => {
+			this.run();
+		}, this.timeDelay);
+	}
+	public pause(): void {
 		if (!this.paused) {
 			this.clear();
 			this.remaining = new Date().getTime() - this.callbackStartTime;
 			this.paused = true;
 		}
 	}
-
-	resume() {
+	public resume(): void {
 		if (this.paused) {
 			if (this.remaining) {
 				setTimeout(() => {
@@ -33,20 +41,7 @@ export class IntervalTimer {
 			}
 		}
 	}
-
-	clear() {
-		clearInterval(this.timerId);
-	}
-
-	start() {
-		this.clear();
-		this.timerId = setInterval(() => {
-			this.run();
-		}, this._delay);
-	}
-
-	run() {
-		this.callbackStartTime = new Date().getTime();
-		this._callback();
+	public clear(): void {
+		clearInterval(this.interval);
 	}
 }
